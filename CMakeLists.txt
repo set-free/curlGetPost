@@ -7,6 +7,8 @@ FIND_PACKAGE(CURL REQUIRED)
 target_link_libraries(main PUBLIC ${CURL_LIBRARIES})
 target_include_directories(main PRIVATE ${CURL_INCLUDE_DIRS})
 
+include_directories(main "/usr/include/curlpp")
+target_link_libraries(main PUBLIC "/usr/lib64/libcurlpp.so")
 
 # Set compile options
 set_target_properties(PROPERTIES
