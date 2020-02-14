@@ -1,3 +1,5 @@
+#include "httplib.hpp"
+
 #include <curl/curl.h>
 
 #include <curlpp/Easy.hpp>
@@ -8,28 +10,28 @@
 #include <iostream>
 #include <sstream>
 
-using namespace curlpp::options;
-int main(int argc, char *argv[]) {
-  std::cout << argc << " :: " << argv << std::endl;
-  std::string myUrl = "https://ya.ru";
+std::string httpGet::GetUrl(const std::string &URL) {
+  url = URL;
   try {
+    std::string url = URL;
+    std::ostringstream response;
     curlpp::Cleanup MyCleanup;
     curlpp::Easy myRequest;
-    myRequest.setOpt<Url>(myUrl);
-    myRequest.setOpt(new Verbose(true));
-
-    std::ostringstream response;
+    myRequest.setOpt<curlpp::options::Url>(url);
+    myRequest.setOpt(new curlpp::options::Verbose(false));
     myRequest.setOpt(new curlpp::options::WriteStream(&response));
     myRequest.perform();
-    std::cout << "\n\n\nRESULT\n\n\n";
-    std::cout << "Begin response: \n[\n"
-              << response.str() << "\n]\nEnd response... ";
+    getResult = response.str();
+    std::cout << "Begin response:\n" << response.str() << "\nEnd response... ";
+
+    cURLpp::Options::Url myUrl;
+    myRequest.getOpt(myUrl);
+    std::cout << "\nRequested url: " << myUrl.getValue() << std::endl;
 
   } catch (curlpp::RuntimeError &e) {
     std::cout << e.what() << std::endl;
   } catch (curlpp::LogicError &e) {
     std::cout << e.what() << std::endl;
   }
-  return 0;
+  return getResult;
 }
-
