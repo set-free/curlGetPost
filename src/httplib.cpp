@@ -22,12 +22,11 @@ std::string httpGet::GetUrl(const std::string &URL) {
     myRequest.setOpt(new curlpp::options::WriteStream(&response));
     myRequest.perform();
     getResult = response.str();
-    std::cout << "Begin response:\n" << response.str() << "\nEnd response... ";
-
+    //    std::cout << "Begin response:\n" << response.str() << "\nEnd
+    //    response... ";
     cURLpp::Options::Url myUrl;
     myRequest.getOpt(myUrl);
-    std::cout << "\nRequested url: " << myUrl.getValue() << std::endl;
-
+    //    std::cout << "\nRequested url: " << myUrl.getValue() << std::endl;
   } catch (curlpp::RuntimeError &e) {
     std::cout << e.what() << std::endl;
   } catch (curlpp::LogicError &e) {
